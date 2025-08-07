@@ -4,7 +4,7 @@ import backend from '~backend/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, Bot, User, Github, Linkedin, Mail, Copy, RotateCcw, LogIn, UserPlus } from 'lucide-react';
+import { Send, Bot, User, Github, Linkedin, Mail, Copy, RotateCcw, LogIn, UserPlus, Sparkles } from 'lucide-react';
 import LoginModal from './LoginModal';
 
 interface Message {
@@ -25,7 +25,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hello! I'm Aaron's AI assistant. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. What would you like to know about him?",
+      content: "Hello! I'm Aaron's AI assistant powered by Gemini AI. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. What would you like to know about him?",
       isUser: false,
       timestamp: new Date(),
     }
@@ -128,7 +128,7 @@ export default function ChatInterface() {
     setMessages([
       {
         id: '1',
-        content: "Hello! I'm Aaron's AI assistant. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. What would you like to know about him?",
+        content: "Hello! I'm Aaron's AI assistant powered by Gemini AI. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. What would you like to know about him?",
         isUser: false,
         timestamp: new Date(),
       }
@@ -154,7 +154,7 @@ export default function ChatInterface() {
     // Add personalized welcome message
     const welcomeMessage: Message = {
       id: Date.now().toString() + '_bot',
-      content: `Welcome back, ${userData.name}! I'm Aaron's AI assistant and I'm here to help you learn more about Aaron's work and projects. As a ${userData.role}, you have access to detailed information about his portfolio. What would you like to know?`,
+      content: `Welcome back, ${userData.name}! I'm Aaron's AI assistant powered by Gemini AI and I'm here to help you learn more about Aaron's work and projects. As a ${userData.role}, you have access to detailed information about his portfolio. What would you like to know?`,
       isUser: false,
       timestamp: new Date(),
     };
@@ -199,7 +199,13 @@ export default function ChatInterface() {
               </div>
               <div>
                 <h1 className="text-lg font-semibold text-gray-100">Aaron George Abraham</h1>
-                <p className="text-sm text-gray-400">AI Assistant</p>
+                <div className="flex items-center space-x-2">
+                  <p className="text-sm text-gray-400">AI Assistant</p>
+                  <div className="flex items-center space-x-1 bg-orange-500/20 px-2 py-1 rounded-full">
+                    <Sparkles className="w-3 h-3 text-orange-400" />
+                    <span className="text-xs text-orange-400 font-medium">Powered by Gemini</span>
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -285,6 +291,16 @@ export default function ChatInterface() {
                       🎯 95%+ AI Accuracy in Banking KYC
                     </span>
                   </div>
+
+                  <div className="mt-6 p-4 bg-gray-800/50 rounded-lg border border-orange-500/20">
+                    <div className="flex items-center justify-center space-x-2 mb-2">
+                      <Sparkles className="w-4 h-4 text-orange-400" />
+                      <span className="text-sm font-medium text-orange-400">Enhanced with Gemini AI</span>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                      Ask me anything about Aaron! I can provide detailed insights about his projects, experience, skills, and more.
+                    </p>
+                  </div>
                 </div>
 
                 <div className="mb-8">
@@ -332,6 +348,12 @@ export default function ChatInterface() {
                           <span className="text-sm font-medium text-gray-100">
                             {message.isUser ? (user ? user.name : 'You') : 'Aaron\'s AI Assistant'}
                           </span>
+                          {!message.isUser && (
+                            <div className="flex items-center space-x-1">
+                              <Sparkles className="w-3 h-3 text-orange-400" />
+                              <span className="text-xs text-orange-400">Gemini</span>
+                            </div>
+                          )}
                           <span className="text-xs text-gray-500">
                             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
@@ -372,6 +394,10 @@ export default function ChatInterface() {
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
                           <span className="text-sm font-medium text-gray-100">Aaron's AI Assistant</span>
+                          <div className="flex items-center space-x-1">
+                            <Sparkles className="w-3 h-3 text-orange-400 animate-pulse" />
+                            <span className="text-xs text-orange-400">Thinking...</span>
+                          </div>
                         </div>
                         <div className="flex space-x-1">
                           <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"></div>
@@ -419,7 +445,7 @@ export default function ChatInterface() {
           
           <div className="mt-2 text-center">
             <p className="text-xs text-gray-500">
-              Aaron's AI can make mistakes. Please verify important information.
+              Powered by Gemini AI • Aaron's AI can make mistakes. Please verify important information.
             </p>
           </div>
         </div>
