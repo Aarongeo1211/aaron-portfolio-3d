@@ -171,6 +171,12 @@ Always respond as Aaron's helpful AI assistant. Be knowledgeable, friendly, and 
 async function callGeminiAPI(message: string): Promise<string> {
   try {
     const apiKey = geminiApiKey();
+    
+    // Check if API key is available
+    if (!apiKey || apiKey.trim() === '') {
+      throw new Error('Gemini API key not configured');
+    }
+
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
@@ -210,7 +216,7 @@ async function callGeminiAPI(message: string): Promise<string> {
     });
 
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.status}`);
+      throw new Error(`Gemini API error: ${response.status} - ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -222,8 +228,7 @@ async function callGeminiAPI(message: string): Promise<string> {
     }
   } catch (error) {
     console.error('Gemini API error:', error);
-    // Fallback to basic responses if Gemini fails
-    return getFallbackResponse(message);
+    throw error; // Re-throw to trigger fallback
   }
 }
 
@@ -242,6 +247,34 @@ function getFallbackResponse(message: string): string {
     return "You can reach Aaron at Aarongeo1211@gmail.com or call him at +91 9972038886. He's based in Bengaluru, India. You can also connect with him on LinkedIn (linkedin.com/in/aaron-george-abraham-19b952256/) and GitHub (github.com/Aarongeo1211). His portfolio website is aarongeo.netlify.app. He's always open to discussing new opportunities, collaborations, and innovative projects!";
   } else if (lowerMessage.includes("website") || lowerMessage.includes("portfolio") || lowerMessage.includes("netlify")) {
     return "Aaron's portfolio website is aarongeo.netlify.app! It showcases his work as a Full-stack Developer and AI/ML Engineer, featuring his projects, experience, skills, and achievements. The website demonstrates his expertise in building modern, responsive web applications and highlights his journey from cybersecurity to AI/ML development. You can explore his detailed project descriptions, technical skills, and professional accomplishments there.";
+  } else if (lowerMessage.includes("awards") || lowerMessage.includes("achievements") || lowerMessage.includes("recognition") || lowerMessage.includes("hackathon")) {
+    return "Aaron has received numerous prestigious awards! Hackathon achievements include: Cybersecurity Track Winners at Haccverse'25 HACC Hackathon (2025), Special Prize Winner at FutureForge Hackathon (IEEE InC4) (2024), and active participation in multiple hackathons. Competition awards include First Place at Technovanza for Assistive Technology Project (2024), Top 6 Finalist in Intelligent Wheelchair Competition (2023), and Top 30 Finalist in Smart India Hackathon (College Level). He's also shown leadership by mentoring 50+ students for IPA and IPR teams for 2 years and organizing multiple events with Build Club.";
+  } else if (lowerMessage.includes("ai") || lowerMessage.includes("machine learning") || lowerMessage.includes("ml")) {
+    return "Aaron is passionate about AI/ML! He's built facial matching systems with 95%+ accuracy for banking KYC, developed MEDVISION-AI for medical diagnostics using CNN models, created FRMS - an AI-powered fraud detection system, and built smart traffic management systems. His expertise includes TensorFlow, OpenCV, computer vision, deep learning, and real-time data processing. He's certified in Real-life Machine Learning and Data Science and constantly explores emerging AI technologies.";
+  } else if (lowerMessage.includes("cybersecurity") || lowerMessage.includes("security")) {
+    return "Cybersecurity is one of Aaron's core strengths! He's currently working on cybersecurity compliance tools at CodezyeCyber and built an award-winning Web Vulnerability Scanner that detects OWASP Top 10 vulnerabilities like SQL injection and XSS. He won the Cybersecurity Track at Haccverse'25 HACC Hackathon and has developed compliance and sanctions screening platforms for financial institutions with enterprise-grade security standards.";
+  } else if (lowerMessage.includes("blockchain") || lowerMessage.includes("web3")) {
+    return "Aaron has hands-on blockchain experience! During his internship at ElimPay, he optimized a blockchain-based payment system, successfully reducing transaction fees from 12% to 4%. He's proficient in Solidity, Web3.js, and Ethereum technologies. His blockchain expertise extends to building secure, scalable decentralized applications and smart contracts.";
+  } else if (lowerMessage.includes("education") || lowerMessage.includes("study") || lowerMessage.includes("university")) {
+    return "Aaron is pursuing his B.Tech in Computer Science Engineering at Presidency University, Bengaluru (2022-2026), with an impressive CGPA of 8.23. He completed his XII from St. Joseph's PU College (2021) with 84% and X from United International School (2019) with 94%. He also has multiple certifications including Real-life Machine Learning and Data Science from Udemy, Advanced DSA from Udemy, and programming certifications from CodeChef in Python and Java.";
+  } else if (lowerMessage.includes("medvision") || lowerMessage.includes("medical") || lowerMessage.includes("healthcare")) {
+    return "MEDVISION-AI is one of Aaron's flagship projects! It's an AI-powered diagnostic platform designed to support doctors by providing rapid and explainable medical scan analysis. Key features include: AI-Based Scan Interpretation for X-rays and breast ultrasounds using ResNet45 and EfficientNet, an AI Doctor Chatbot that explains findings in patient-friendly language, a Triage System for critical conditions, Scan Comparison Tool for tracking progression, and Segmentation & Heatmap Analysis using attention maps. Built with React.js, FastAPI, Supabase, PyTorch, and OpenAI API.";
+  } else if (lowerMessage.includes("vulnerability") || lowerMessage.includes("scanner") || lowerMessage.includes("owasp")) {
+    return "Aaron's Web Vulnerability Scanner is an award-winning automated security assessment tool! It's lightweight yet powerful, designed to detect common threats like XSS, SQL Injection, and missing security headers. Key features include Custom Payload Support using YAML configuration, Website Crawling with BeautifulSoup and multi-threading, and Severity-Based Reports with actionable recommendations. Built with Python, BeautifulSoup, Requests, and multi-threading for efficient vulnerability detection during the development lifecycle.";
+  } else if (lowerMessage.includes("traffic") || lowerMessage.includes("pulse city") || lowerMessage.includes("bengaluru")) {
+    return "Pulse City is Aaron's innovative real-time traffic dashboard for Bengaluru! It assists commuters and emergency services with features like Interactive Map using Leaflet with TomTom overlays, Route Optimization with multi-route suggestions, Live Traffic Data with color-coded delay indicators, Weather & AQI integration via OpenWeatherMap, and Emergency Services mapping. Built with HTML, CSS (Bootstrap), JavaScript, Leaflet.js, TomTom API, and OpenWeatherMap API for comprehensive urban mobility solutions.";
+  } else if (lowerMessage.includes("fraud") || lowerMessage.includes("frms") || lowerMessage.includes("risk")) {
+    return "FRMS (Fraud and Risk Management System) is Aaron's comprehensive AI-powered platform for financial fraud detection! Key features include Real-time Fraud Detection using machine learning algorithms, Risk Assessment Engine providing transaction scores, User Behavior Analytics for anomaly detection, Case Management System for fraud analysts, Customizable Rule Engine, and detailed Reporting and Analytics. Built with Python, TensorFlow, Scikit-learn, FastAPI, React.js, PostgreSQL, and Docker for enterprise-grade fraud prevention.";
+  } else if (lowerMessage.includes("earthvision") || lowerMessage.includes("environmental") || lowerMessage.includes("agriculture")) {
+    return "EarthVision is Aaron's real-time environmental dashboard for sustainable agriculture! It empowers farmers with features like Precipitation Monitoring for irrigation optimization, Evapotranspiration Analysis for water efficiency, Humidity Tracking for plant health, Rainfall Insights for field-level decisions, and Drought Index Evaluation for proactive strategies. Built with React.js, Flask, OpenWeatherMap API, NASA EarthData, PostgreSQL, and D3.js for climate-resilient agricultural decision-making.";
+  } else if (lowerMessage.includes("compliance") || lowerMessage.includes("sanctions") || lowerMessage.includes("screening")) {
+    return "Aaron's Compliance and Sanctions Screening Platform is a secure, role-based system for financial institutions! Features include Multi-role Authentication (Super Admin, Institution Admin, User), Sanctions Screening using fuzzy search and Elasticsearch against OFAC and UN lists, User & Institution Management with role-based controls, Audit Logging for compliance tracking, and Session Security with JWT authentication. Built with React.js, FastAPI, MongoDB, Elasticsearch, JWT, Material-UI, and APScheduler.";
+  } else if (lowerMessage.includes("websites") || lowerMessage.includes("client") || lowerMessage.includes("rubco") || lowerMessage.includes("careernxt") || lowerMessage.includes("fitness")) {
+    return "Aaron has built multiple professional websites for various clients! Notable projects include rubcobangalore.com (corporate business website), careernxt.com (career platform with job listings), fitnesswithvikram.in (fitness coaching website), and as-constructions.com (construction company portfolio). All feature custom responsive designs, SEO optimization, fast loading times, and secure hosting. Built with Next.js, React.js, Tailwind CSS, Node.js, MongoDB, AWS, and Cloudflare CDN.";
+  } else if (lowerMessage.includes("fenox") || lowerMessage.includes("seo") || lowerMessage.includes("marketing")) {
+    return "Fenox Digital Marketing is Aaron's own SEO agency that he founded in October 2023! He successfully scaled the agency and boosted client conversions by 25% through optimized websites and automation. The company uses technologies like Next.js, Tailwind CSS, Google Tag Manager, Yoast SEO, and Cloudflare CDN to deliver exceptional digital marketing results for clients.";
+  } else if (lowerMessage.includes("leadership") || lowerMessage.includes("team") || lowerMessage.includes("mentor")) {
+    return "Aaron is a natural leader and mentor! He's mentored 50+ students for IPA and IPR teams for 2 years and has been actively involved with Build Club, organizing multiple events. As Founder of Fenox Digital Marketing, he scaled the SEO agency and boosted client conversions by 25%. He consistently demonstrates leadership in hackathons and technical projects, bringing teams together to create innovative solutions.";
   } else {
     return "I'd be happy to tell you more about Aaron! You can ask me about his experience, skills, detailed project information (like MEDVISION-AI with ResNet45/EfficientNet, Web Vulnerability Scanner with YAML configs, FRMS with real-time fraud detection, Pulse City with TomTom integration), education, awards, certifications, or how to contact him. You can also visit his portfolio website at aarongeo.netlify.app to see his complete work. What specific aspect of Aaron's background interests you most?";
   }
@@ -258,6 +291,7 @@ export const chat = api<ChatRequest, ChatResponse>(
       response = await callGeminiAPI(req.message);
     } catch (error) {
       console.error('Failed to get Gemini response, using fallback:', error);
+      // Always use fallback if Gemini fails
       response = getFallbackResponse(req.message);
     }
 

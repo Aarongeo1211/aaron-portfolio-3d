@@ -22,7 +22,14 @@ interface UserData {
 }
 
 export default function ChatInterface() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: 'welcome',
+      content: "Hello! I'm Aaron's AI assistant. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. You can also check out his portfolio at aarongeo.netlify.app. What would you like to know about him?",
+      isUser: false,
+      timestamp: new Date(),
+    }
+  ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [user, setUser] = useState<UserData | null>(null);
@@ -61,6 +68,15 @@ export default function ChatInterface() {
         description: 'Failed to send message. Please try again.',
         variant: 'destructive',
       });
+      
+      // Add a fallback error message
+      const errorMessage: Message = {
+        id: Date.now().toString() + '_error',
+        content: "I'm sorry, I'm having trouble responding right now. Please try asking again or contact Aaron directly at Aarongeo1211@gmail.com.",
+        isUser: false,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorMessage]);
     },
   });
 
@@ -118,7 +134,14 @@ export default function ChatInterface() {
   };
 
   const clearChat = () => {
-    setMessages([]);
+    setMessages([
+      {
+        id: 'welcome',
+        content: "Hello! I'm Aaron's AI assistant. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. You can also check out his portfolio at aarongeo.netlify.app. What would you like to know about him?",
+        isUser: false,
+        timestamp: new Date(),
+      }
+    ]);
   };
 
   const handleLogout = () => {
