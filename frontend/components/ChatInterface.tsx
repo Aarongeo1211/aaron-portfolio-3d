@@ -4,7 +4,7 @@ import backend from '~backend/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, Bot, User, Github, Linkedin, Mail, Copy, RotateCcw, LogIn, UserPlus, Sparkles } from 'lucide-react';
+import { Send, Bot, User, Github, Linkedin, Mail, Copy, RotateCcw, LogIn, UserPlus, Sparkles, ExternalLink } from 'lucide-react';
 import LoginModal from './LoginModal';
 
 interface Message {
@@ -25,7 +25,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hello! I'm Aaron's AI assistant powered by Gemini AI. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. What would you like to know about him?",
+      content: "Hello! I'm Aaron's AI assistant powered by Gemini AI. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. You can also check out his portfolio at aarongeo.netlify.app. What would you like to know about him?",
       isUser: false,
       timestamp: new Date(),
     }
@@ -128,7 +128,7 @@ export default function ChatInterface() {
     setMessages([
       {
         id: '1',
-        content: "Hello! I'm Aaron's AI assistant powered by Gemini AI. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. What would you like to know about him?",
+        content: "Hello! I'm Aaron's AI assistant powered by Gemini AI. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. You can also check out his portfolio at aarongeo.netlify.app. What would you like to know about him?",
         isUser: false,
         timestamp: new Date(),
       }
@@ -154,7 +154,7 @@ export default function ChatInterface() {
     // Add personalized welcome message
     const welcomeMessage: Message = {
       id: Date.now().toString() + '_bot',
-      content: `Welcome back, ${userData.name}! I'm Aaron's AI assistant powered by Gemini AI and I'm here to help you learn more about Aaron's work and projects. As a ${userData.role}, you have access to detailed information about his portfolio. What would you like to know?`,
+      content: `Welcome back, ${userData.name}! I'm Aaron's AI assistant powered by Gemini AI and I'm here to help you learn more about Aaron's work and projects. As a ${userData.role}, you have access to detailed information about his portfolio. You can also explore his complete portfolio at aarongeo.netlify.app. What would you like to know?`,
       isUser: false,
       timestamp: new Date(),
     };
@@ -210,6 +210,15 @@ export default function ChatInterface() {
             </div>
             
             <div className="flex items-center space-x-2">
+              <a
+                href="https://aarongeo.netlify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-gray-400 hover:text-orange-400 hover:bg-gray-700 rounded-lg transition-colors"
+                title="Visit Portfolio"
+              >
+                <ExternalLink className="w-4 h-4" />
+              </a>
               <a
                 href="https://github.com/Aarongeo1211"
                 target="_blank"
@@ -297,9 +306,18 @@ export default function ChatInterface() {
                       <Sparkles className="w-4 h-4 text-orange-400" />
                       <span className="text-sm font-medium text-orange-400">Enhanced with Gemini AI</span>
                     </div>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-400 mb-2">
                       Ask me anything about Aaron! I can provide detailed insights about his projects, experience, skills, and more.
                     </p>
+                    <a
+                      href="https://aarongeo.netlify.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center space-x-1 text-xs text-orange-400 hover:text-orange-300 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      <span>Visit Portfolio: aarongeo.netlify.app</span>
+                    </a>
                   </div>
                 </div>
 
