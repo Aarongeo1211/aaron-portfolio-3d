@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Contact from './components/Contact';
+import ChatInterface from './components/ChatInterface';
 import Navigation from './components/Navigation';
 import LoadingScreen from './components/LoadingScreen';
 import ParticleBackground from './components/ParticleBackground';
+import FloatingAILogos from './components/FloatingAILogos';
 
 export default function AppInner() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,16 +21,12 @@ export default function AppInner() {
   }
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-slate-50 text-slate-900 overflow-x-hidden">
       <ParticleBackground />
+      <FloatingAILogos />
       <Navigation />
       <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Contact />
+        <ChatInterface />
       </main>
     </div>
   );
