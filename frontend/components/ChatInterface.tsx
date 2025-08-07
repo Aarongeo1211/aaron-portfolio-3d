@@ -17,7 +17,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hello! I'm Aaron's AI assistant. I can tell you about Aaron George Abraham - a passionate Software Developer and AI/ML Engineer from Bengaluru, India. What would you like to know about him?",
+      content: "Hello! I'm Aaron's AI assistant. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. What would you like to know about him?",
       isUser: false,
       timestamp: new Date(),
     }
@@ -76,6 +76,7 @@ export default function ChatInterface() {
     "What are Aaron's technical skills?",
     "Show me Aaron's projects",
     "What awards has Aaron won?",
+    "Tell me about MEDVISION-AI",
     "How can I contact Aaron?",
   ];
 
@@ -103,7 +104,8 @@ export default function ChatInterface() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-slate-900">Aaron George Abraham</h1>
-                <p className="text-slate-600">Software Developer & AI/ML Engineer</p>
+                <p className="text-slate-600">Full-stack Developer & AI/ML Engineer</p>
+                <p className="text-sm text-slate-500">CGPA: 8.23 | B.Tech CSE, Presidency University</p>
               </div>
             </div>
             
@@ -118,7 +120,7 @@ export default function ChatInterface() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                <span>aarongeo1211@gmail.com</span>
+                <span>Aarongeo1211@gmail.com</span>
               </div>
             </div>
 
@@ -140,11 +142,23 @@ export default function ChatInterface() {
                 <Linkedin className="w-5 h-5 text-slate-700" />
               </a>
               <a
-                href="mailto:aarongeo1211@gmail.com"
+                href="mailto:Aarongeo1211@gmail.com"
                 className="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Mail className="w-5 h-5 text-slate-700" />
               </a>
+            </div>
+
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs">
+                🏆 Cybersecurity Track Winner - Haccverse'25
+              </span>
+              <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs">
+                🥇 First Place - Technovanza 2024
+              </span>
+              <span className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs">
+                🎯 95%+ AI Accuracy in Banking KYC
+              </span>
             </div>
           </div>
         </div>
@@ -249,6 +263,9 @@ export default function ChatInterface() {
         <div className="mt-8 pt-6 border-t border-slate-200 text-center">
           <p className="text-slate-500 text-sm">
             © 2025 Aaron George Abraham. Built with React, TypeScript, and Encore.ts
+          </p>
+          <p className="text-slate-400 text-xs mt-1">
+            Ask me about Aaron's projects, experience, skills, achievements, or anything else!
           </p>
         </div>
       </div>
