@@ -169,66 +169,82 @@ Always respond as Aaron's helpful AI assistant. Be knowledgeable, friendly, and 
 `;
 
 async function callGeminiAPI(message: string): Promise<string> {
+  let apiKey: string;
+  
   try {
-    const apiKey = geminiApiKey();
-    
-    // Check if API key is available
-    if (!apiKey || apiKey.trim() === '') {
-      throw new Error('Gemini API key not configured');
-    }
+    apiKey = geminiApiKey();
+  } catch (error) {
+    console.log('Gemini API key not configured, using fallback');
+    throw new Error('API key not available');
+  }
+  
+  // Check if API key is available and not empty
+  if (!apiKey || apiKey.trim() === '' || apiKey === 'undefined') {
+    console.log('Gemini API key is empty or undefined, using fallback');
+    throw new Error('API key not configured');
+  }
 
+  try {
+    const requestBody = {
+      contents: [{
+        parts: [{
+          text: `${AARON_CONTEXT}\n\nUser question: ${message}\n\nPlease respond as Aaron's AI assistant with detailed, helpful information about Aaron. Keep responses conversational and informative. When relevant, mention his portfolio website aarongeo.netlify.app.`
+        }]
+      }],
+      generationConfig: {
+        temperature: 0.7,
+        topK: 40,
+        topP: 0.95,
+        maxOutputTokens: 1024,
+      },
+      safetySettings: [
+        {
+          category: "HARM_CATEGORY_HARASSMENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_HATE_SPEECH",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        },
+        {
+          category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+          threshold: "BLOCK_MEDIUM_AND_ABOVE"
+        }
+      ]
+    };
+
+    console.log('Making Gemini API request...');
+    
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `${AARON_CONTEXT}\n\nUser question: ${message}\n\nPlease respond as Aaron's AI assistant with detailed, helpful information about Aaron. Keep responses conversational and informative. When relevant, mention his portfolio website aarongeo.netlify.app.`
-          }]
-        }],
-        generationConfig: {
-          temperature: 0.7,
-          topK: 40,
-          topP: 0.95,
-          maxOutputTokens: 1024,
-        },
-        safetySettings: [
-          {
-            category: "HARM_CATEGORY_HARASSMENT",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE"
-          },
-          {
-            category: "HARM_CATEGORY_HATE_SPEECH",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE"
-          },
-          {
-            category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE"
-          },
-          {
-            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-            threshold: "BLOCK_MEDIUM_AND_ABOVE"
-          }
-        ]
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Gemini API error: ${response.status} - ${response.statusText}`, errorText);
       throw new Error(`Gemini API error: ${response.status} - ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('Gemini API response received');
     
     if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
       return data.candidates[0].content.parts[0].text;
     } else {
+      console.error('Invalid Gemini API response format:', data);
       throw new Error('Invalid response format from Gemini API');
     }
   } catch (error) {
-    console.error('Gemini API error:', error);
-    throw error; // Re-throw to trigger fallback
+    console.error('Gemini API call failed:', error);
+    throw error;
   }
 }
 
@@ -285,14 +301,23 @@ export const chat = api<ChatRequest, ChatResponse>(
   { expose: true, method: "POST", path: "/chat" },
   async (req) => {
     let response: string;
+    let usedGemini = false;
     
     try {
-      // Try to use Gemini API for more intelligent responses
+      console.log('Attempting to use Gemini API...');
       response = await callGeminiAPI(req.message);
+      usedGemini = true;
+      console.log('Successfully used Gemini API');
     } catch (error) {
-      console.error('Failed to get Gemini response, using fallback:', error);
-      // Always use fallback if Gemini fails
+      console.log('Gemini API failed, using fallback response:', error);
       response = getFallbackResponse(req.message);
+    }
+
+    // Add a subtle indicator if Gemini was used (for debugging)
+    if (usedGemini) {
+      console.log('Response generated using Gemini AI');
+    } else {
+      console.log('Response generated using fallback system');
     }
 
     return {
