@@ -1,7 +1,7 @@
 import { api } from "encore.dev/api";
 import { secret } from "encore.dev/config";
 
-const geminiApiKey = secret("GeminiAPIKey");
+const geminiApiKey = secret("GEMINI_API_KEY");
 
 export interface ChatMessage {
   id: string;
@@ -174,13 +174,13 @@ async function callGeminiAPI(message: string): Promise<string> {
   try {
     apiKey = geminiApiKey();
   } catch (error) {
-    console.log('Gemini API key not configured, using fallback');
+    console.error('Gemini API key not configured:', error);
     throw new Error('API key not available');
   }
   
   // Check if API key is available and not empty
   if (!apiKey || apiKey.trim() === '' || apiKey === 'undefined') {
-    console.log('Gemini API key is empty or undefined, using fallback');
+    console.error('Gemini API key is empty or undefined');
     throw new Error('API key not configured');
   }
 
@@ -195,7 +195,7 @@ async function callGeminiAPI(message: string): Promise<string> {
         temperature: 0.7,
         topK: 40,
         topP: 0.95,
-        maxOutputTokens: 1024,
+        maxOutputTokens: 2048,
       },
       safetySettings: [
         {
@@ -219,7 +219,7 @@ async function callGeminiAPI(message: string): Promise<string> {
 
     console.log('Making Gemini API request...');
     
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -230,7 +230,15 @@ async function callGeminiAPI(message: string): Promise<string> {
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`Gemini API error: ${response.status} - ${response.statusText}`, errorText);
-      throw new Error(`Gemini API error: ${response.status} - ${response.statusText}`);
+      
+      // Parse error response for more details
+      try {
+        const errorData = JSON.parse(errorText);
+        const errorMessage = errorData.error?.message || `HTTP ${response.status}: ${response.statusText}`;
+        throw new Error(`Gemini API error: ${errorMessage}`);
+      } catch (parseError) {
+        throw new Error(`Gemini API error: ${response.status} - ${response.statusText} - ${errorText}`);
+      }
     }
 
     const data = await response.json();
@@ -239,7 +247,18 @@ async function callGeminiAPI(message: string): Promise<string> {
     if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
       return data.candidates[0].content.parts[0].text;
     } else {
-      console.error('Invalid Gemini API response format:', data);
+      console.error('Invalid Gemini API response format:', JSON.stringify(data, null, 2));
+      
+      // Check for safety filter blocks
+      if (data.candidates && data.candidates[0] && data.candidates[0].finishReason === 'SAFETY') {
+        throw new Error('Response blocked by Gemini safety filters');
+      }
+      
+      // Check for other finish reasons
+      if (data.candidates && data.candidates[0] && data.candidates[0].finishReason) {
+        throw new Error(`Gemini API finished with reason: ${data.candidates[0].finishReason}`);
+      }
+      
       throw new Error('Invalid response format from Gemini API');
     }
   } catch (error) {
@@ -309,16 +328,11 @@ export const chat = api<ChatRequest, ChatResponse>(
       usedGemini = true;
       console.log('Successfully used Gemini API');
     } catch (error) {
-      console.log('Gemini API failed, using fallback response:', error);
+      console.error('Gemini API failed, using fallback response:', error);
       response = getFallbackResponse(req.message);
     }
 
-    // Add a subtle indicator if Gemini was used (for debugging)
-    if (usedGemini) {
-      console.log('Response generated using Gemini AI');
-    } else {
-      console.log('Response generated using fallback system');
-    }
+    console.log(`Response generated using ${usedGemini ? 'Gemini AI' : 'fallback system'}`);
 
     return {
       response,
