@@ -56,7 +56,7 @@ export default function ParticleBackground() {
 
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(148, 163, 184, ${particle.opacity})`;
+        ctx.fillStyle = `rgba(249, 115, 22, ${particle.opacity})`;
         ctx.fill();
 
         // Draw connections
@@ -69,7 +69,7 @@ export default function ParticleBackground() {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(148, 163, 184, ${0.03 * (1 - distance / 60)})`;
+            ctx.strokeStyle = `rgba(249, 115, 22, ${0.03 * (1 - distance / 60)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -102,7 +102,7 @@ export default function ParticleBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)' }}
+      style={{ background: 'linear-gradient(135deg, #111827 0%, #1f2937 100%)' }}
     />
   );
 }

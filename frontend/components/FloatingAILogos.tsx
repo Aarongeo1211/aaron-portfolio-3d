@@ -23,15 +23,15 @@ export default function FloatingAILogos() {
 
   const icons = [Brain, Cpu, Zap, Bot, Network, Sparkles, Code, Database, Shield];
   const colors = [
-    'text-slate-300',
-    'text-slate-400',
-    'text-slate-200',
-    'text-slate-500',
-    'text-slate-300',
-    'text-slate-400',
-    'text-slate-200',
-    'text-slate-300',
-    'text-slate-400'
+    'text-orange-400/30',
+    'text-orange-500/20',
+    'text-orange-300/40',
+    'text-orange-600/25',
+    'text-orange-400/35',
+    'text-orange-500/30',
+    'text-orange-300/25',
+    'text-orange-400/20',
+    'text-orange-500/35'
   ];
 
   useEffect(() => {

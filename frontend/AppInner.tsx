@@ -20,7 +20,7 @@ export default function AppInner() {
   }
 
   return (
-    <div className="relative h-screen bg-white text-slate-900 overflow-hidden">
+    <div className="relative h-screen bg-gray-900 text-gray-100 overflow-hidden">
       <ParticleBackground />
       <FloatingAILogos />
       <div className="relative z-10 h-full">
