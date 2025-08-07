@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ChatInterface from './components/ChatInterface';
-import Navigation from './components/Navigation';
 import LoadingScreen from './components/LoadingScreen';
 import ParticleBackground from './components/ParticleBackground';
 import FloatingAILogos from './components/FloatingAILogos';
@@ -11,7 +10,7 @@ export default function AppInner() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -21,13 +20,12 @@ export default function AppInner() {
   }
 
   return (
-    <div className="relative min-h-screen bg-slate-50 text-slate-900 overflow-x-hidden">
+    <div className="relative h-screen bg-white text-slate-900 overflow-hidden">
       <ParticleBackground />
       <FloatingAILogos />
-      <Navigation />
-      <main>
+      <div className="relative z-10 h-full">
         <ChatInterface />
-      </main>
+      </div>
     </div>
   );
 }

@@ -28,16 +28,16 @@ export default function ParticleBackground() {
 
     const createParticles = () => {
       const particles: Particle[] = [];
-      const particleCount = Math.floor((canvas.width * canvas.height) / 20000);
+      const particleCount = Math.floor((canvas.width * canvas.height) / 25000);
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          size: Math.random() * 1.5 + 0.5,
-          opacity: Math.random() * 0.3 + 0.1,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.2,
+          size: Math.random() * 1 + 0.5,
+          opacity: Math.random() * 0.2 + 0.05,
         });
       }
 
@@ -56,7 +56,7 @@ export default function ParticleBackground() {
 
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(71, 85, 105, ${particle.opacity})`;
+        ctx.fillStyle = `rgba(148, 163, 184, ${particle.opacity})`;
         ctx.fill();
 
         // Draw connections
@@ -65,11 +65,11 @@ export default function ParticleBackground() {
           const dy = particle.y - otherParticle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 80) {
+          if (distance < 60) {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(71, 85, 105, ${0.05 * (1 - distance / 80)})`;
+            ctx.strokeStyle = `rgba(148, 163, 184, ${0.03 * (1 - distance / 60)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -102,7 +102,7 @@ export default function ParticleBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' }}
+      style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)' }}
     />
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Brain, Cpu, Zap, Bot, Network, Sparkles } from 'lucide-react';
+import { Brain, Cpu, Zap, Bot, Network, Sparkles, Code, Database, Shield } from 'lucide-react';
 
 interface FloatingLogo {
   id: number;
@@ -21,14 +21,17 @@ export default function FloatingAILogos() {
   const animationRef = useRef<number>();
   const scrollY = useRef(0);
 
-  const icons = [Brain, Cpu, Zap, Bot, Network, Sparkles];
+  const icons = [Brain, Cpu, Zap, Bot, Network, Sparkles, Code, Database, Shield];
   const colors = [
-    'text-slate-600',
-    'text-slate-700',
-    'text-slate-500',
-    'text-slate-800',
+    'text-slate-300',
     'text-slate-400',
-    'text-slate-600'
+    'text-slate-200',
+    'text-slate-500',
+    'text-slate-300',
+    'text-slate-400',
+    'text-slate-200',
+    'text-slate-300',
+    'text-slate-400'
   ];
 
   useEffect(() => {
@@ -37,19 +40,19 @@ export default function FloatingAILogos() {
 
     const createLogos = () => {
       const logos: FloatingLogo[] = [];
-      const logoCount = 12;
+      const logoCount = 8;
 
       for (let i = 0; i < logoCount; i++) {
         logos.push({
           id: i,
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
           rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 2,
-          scale: 0.5 + Math.random() * 0.5,
-          opacity: 0.1 + Math.random() * 0.2,
+          rotationSpeed: (Math.random() - 0.5) * 1,
+          scale: 0.4 + Math.random() * 0.3,
+          opacity: 0.05 + Math.random() * 0.1,
           icon: icons[Math.floor(Math.random() * icons.length)],
           color: colors[Math.floor(Math.random() * colors.length)],
         });
@@ -65,7 +68,7 @@ export default function FloatingAILogos() {
     const animate = () => {
       logosRef.current.forEach((logo) => {
         // Update position based on scroll
-        logo.y += logo.vy + scrollY.current * 0.001;
+        logo.y += logo.vy + scrollY.current * 0.0005;
         logo.x += logo.vx;
         logo.rotation += logo.rotationSpeed;
 
@@ -76,8 +79,8 @@ export default function FloatingAILogos() {
         if (logo.y > window.innerHeight + 50) logo.y = -50;
 
         // Update opacity based on scroll speed
-        const scrollSpeed = Math.abs(scrollY.current * 0.01) % 1;
-        logo.opacity = 0.1 + scrollSpeed * 0.3;
+        const scrollSpeed = Math.abs(scrollY.current * 0.005) % 1;
+        logo.opacity = 0.05 + scrollSpeed * 0.15;
       });
 
       animationRef.current = requestAnimationFrame(animate);
@@ -117,7 +120,7 @@ export default function FloatingAILogos() {
               opacity: logo.opacity,
             }}
           >
-            <IconComponent className={`w-8 h-8 ${logo.color}`} />
+            <IconComponent className={`w-6 h-6 ${logo.color}`} />
           </div>
         );
       })}
