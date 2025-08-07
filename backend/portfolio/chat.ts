@@ -37,7 +37,7 @@ export const chat = api<ChatRequest, ChatResponse>(
     } else if (message.includes("awards") || message.includes("achievements") || message.includes("recognition")) {
       response = "Aaron has received several prestigious awards! He won the Cybersecurity Track at Haccverse'25 HACC Hackathon, secured First Place at Technovanza (2024), received a Special Prize at FutureForge Hackathon (IEEE InC4), and was a Top 6 Finalist in the Intelligent Wheelchair Competition (2024). He's also a Core Member of Build Club, leading workshops for 50+ students.";
     } else if (message.includes("contact") || message.includes("reach") || message.includes("email") || message.includes("phone")) {
-      response = "You can reach Aaron at aarongeo1211@gmail.com or call him at +91 9972038886. He's based in Bengaluru, India. You can also connect with him on GitHub and LinkedIn - he's always open to discussing new opportunities and collaborations!";
+      response = "You can reach Aaron at aarongeo1211@gmail.com or call him at +91 9972038886. He's based in Bengaluru, India. You can also connect with him on LinkedIn (linkedin.com/in/aaron-george-abraham-19b952256/) and GitHub (github.com/Aarongeo1211) - he's always open to discussing new opportunities and collaborations!";
     } else if (message.includes("ai") || message.includes("machine learning") || message.includes("ml")) {
       response = "Aaron is passionate about AI/ML! He's built facial matching systems with 95%+ accuracy, developed MedVision AI for medical diagnostics using CNN models, and created smart traffic management systems. His expertise includes TensorFlow, OpenCV, computer vision, and deep learning technologies.";
     } else if (message.includes("cybersecurity") || message.includes("security")) {
@@ -48,6 +48,8 @@ export const chat = api<ChatRequest, ChatResponse>(
       response = "Aaron is a natural leader! As a Core Member of Build Club, he led workshops for 50+ students and mentored 20+ students in their projects, boosting participation by 40%. He's also Co-Founder of Fenox Digital Marketing, where he scaled the SEO agency and boosted client conversions by 25%.";
     } else if (message.includes("location") || message.includes("where") || message.includes("based")) {
       response = "Aaron is based in Bengaluru, India. He's worked both remotely and on-site, collaborating with teams across different time zones and delivering high-quality solutions for clients worldwide.";
+    } else if (message.includes("linkedin") || message.includes("github") || message.includes("social")) {
+      response = "You can find Aaron on LinkedIn at linkedin.com/in/aaron-george-abraham-19b952256/ and on GitHub at github.com/Aarongeo1211. He regularly shares his projects and professional updates on these platforms!";
     } else {
       response = "I'd be happy to tell you more about Aaron! You can ask me about his experience, skills, projects, education, awards, or how to contact him. What specific aspect of Aaron's background interests you most?";
     }

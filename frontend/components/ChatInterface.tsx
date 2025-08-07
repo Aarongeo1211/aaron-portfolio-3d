@@ -124,7 +124,7 @@ export default function ChatInterface() {
 
             <div className="flex justify-center space-x-4 mt-4">
               <a
-                href="https://github.com/aarongeo"
+                href="https://github.com/Aarongeo1211"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-all duration-300 hover:scale-110"
@@ -132,7 +132,7 @@ export default function ChatInterface() {
                 <Github className="w-5 h-5 text-slate-700" />
               </a>
               <a
-                href="https://linkedin.com/in/aarongeo"
+                href="https://linkedin.com/in/aaron-george-abraham-19b952256/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-all duration-300 hover:scale-110"

@@ -43,10 +43,10 @@ CREATE TABLE experiences (
 
 -- Insert sample data
 INSERT INTO projects (title, description, tech_stack, github_url, category, featured) VALUES
-('Smart Traffic Management System', 'AI-powered system to detect ambulances and adjust traffic lights for emergency response', ARRAY['Python', 'TensorFlow', 'OpenCV', 'Tesseract OCR'], 'https://github.com/aarongeo', 'AI/ML', true),
-('Web Vulnerability Scanner', 'Award-winning tool detecting OWASP Top 10 vulnerabilities like SQL injection and XSS', ARRAY['Python', 'Flask', 'SQLAlchemy', 'React'], 'https://github.com/aarongeo', 'Cybersecurity', true),
-('MedVision AI', 'AI diagnostic tool for medical scan analysis using CNN models for anomaly detection', ARRAY['TensorFlow', 'OpenCV', 'Python', 'CNN Models'], 'https://github.com/aarongeo', 'AI/ML', true),
-('Facial Matching System', 'Banking KYC system with 95%+ accuracy, reducing processing time by 40%', ARRAY['OpenCV', 'TensorFlow', 'Python', 'AWS', 'Docker'], 'https://github.com/aarongeo', 'AI/ML', true);
+('Smart Traffic Management System', 'AI-powered system to detect ambulances and adjust traffic lights for emergency response', ARRAY['Python', 'TensorFlow', 'OpenCV', 'Tesseract OCR'], 'https://github.com/Aarongeo1211', 'AI/ML', true),
+('Web Vulnerability Scanner', 'Award-winning tool detecting OWASP Top 10 vulnerabilities like SQL injection and XSS', ARRAY['Python', 'Flask', 'SQLAlchemy', 'React'], 'https://github.com/Aarongeo1211', 'Cybersecurity', true),
+('MedVision AI', 'AI diagnostic tool for medical scan analysis using CNN models for anomaly detection', ARRAY['TensorFlow', 'OpenCV', 'Python', 'CNN Models'], 'https://github.com/Aarongeo1211', 'AI/ML', true),
+('Facial Matching System', 'Banking KYC system with 95%+ accuracy, reducing processing time by 40%', ARRAY['OpenCV', 'TensorFlow', 'Python', 'AWS', 'Docker'], 'https://github.com/Aarongeo1211', 'AI/ML', true);
 
 INSERT INTO skills (name, category, proficiency, icon) VALUES
 ('Python', 'Languages', 95, 'code'),
