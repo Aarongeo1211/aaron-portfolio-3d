@@ -4,7 +4,7 @@ import backend from '~backend/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, Bot, User, Github, Linkedin, Mail, Copy, RotateCcw, LogIn, UserPlus, Sparkles, ExternalLink } from 'lucide-react';
+import { Send, Bot, User, Github, Linkedin, Mail, Copy, RotateCcw, LogIn, UserPlus, ExternalLink } from 'lucide-react';
 import LoginModal from './LoginModal';
 
 interface Message {
@@ -22,14 +22,7 @@ interface UserData {
 }
 
 export default function ChatInterface() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: "Hello! I'm Aaron's AI assistant powered by Gemini AI. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. You can also check out his portfolio at aarongeo.netlify.app. What would you like to know about him?",
-      isUser: false,
-      timestamp: new Date(),
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [user, setUser] = useState<UserData | null>(null);
@@ -125,14 +118,7 @@ export default function ChatInterface() {
   };
 
   const clearChat = () => {
-    setMessages([
-      {
-        id: '1',
-        content: "Hello! I'm Aaron's AI assistant powered by Gemini AI. I can tell you about Aaron George Abraham - a passionate Full-stack Developer and AI/ML Engineer from Bengaluru, India. He specializes in building secure, high-performance, and user-centric applications. You can also check out his portfolio at aarongeo.netlify.app. What would you like to know about him?",
-        isUser: false,
-        timestamp: new Date(),
-      }
-    ]);
+    setMessages([]);
   };
 
   const handleLogout = () => {
@@ -150,15 +136,6 @@ export default function ChatInterface() {
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('token', token);
     setIsLoginModalOpen(false);
-    
-    // Add personalized welcome message
-    const welcomeMessage: Message = {
-      id: Date.now().toString() + '_bot',
-      content: `Welcome back, ${userData.name}! I'm Aaron's AI assistant powered by Gemini AI and I'm here to help you learn more about Aaron's work and projects. As a ${userData.role}, you have access to detailed information about his portfolio. You can also explore his complete portfolio at aarongeo.netlify.app. What would you like to know?`,
-      isUser: false,
-      timestamp: new Date(),
-    };
-    setMessages(prev => [...prev, welcomeMessage]);
     
     toast({
       title: 'Welcome!',
@@ -189,8 +166,9 @@ export default function ChatInterface() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-900">
-      {/* Header */}
-      <div className="flex-shrink-0 border-b border-gray-700 bg-gray-800/95 backdrop-blur-sm">
+      {/* Fixed Header Section */}
+      <div className="flex-shrink-0 bg-gray-800/95 backdrop-blur-sm border-b border-gray-700">
+        {/* Navigation Header */}
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -201,10 +179,6 @@ export default function ChatInterface() {
                 <h1 className="text-lg font-semibold text-gray-100">Aaron George Abraham</h1>
                 <div className="flex items-center space-x-2">
                   <p className="text-sm text-gray-400">AI Assistant</p>
-                  <div className="flex items-center space-x-1 bg-orange-500/20 px-2 py-1 rounded-full">
-                    <Sparkles className="w-3 h-3 text-orange-400" />
-                    <span className="text-xs text-orange-400 font-medium">Powered by Gemini</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -272,72 +246,67 @@ export default function ChatInterface() {
             </div>
           </div>
         </div>
+
+        {/* Profile Section - Always Visible */}
+        <div className="max-w-4xl mx-auto px-4 pb-6">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-white text-xl font-bold">AG</span>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-100 mb-2">Aaron George Abraham</h2>
+            <p className="text-gray-300 mb-1">Full-stack Developer & AI/ML Engineer</p>
+            <p className="text-sm text-gray-400">CGPA: 8.23 | B.Tech CSE, Presidency University</p>
+            
+            <div className="flex flex-wrap justify-center gap-2 mt-4">
+              <span className="bg-gray-800 text-orange-400 px-3 py-1 rounded-full text-xs border border-orange-500/30">
+                🏆 Cybersecurity Track Winner - Haccverse'25
+              </span>
+              <span className="bg-gray-800 text-orange-400 px-3 py-1 rounded-full text-xs border border-orange-500/30">
+                🥇 First Place - Technovanza 2024
+              </span>
+              <span className="bg-gray-800 text-orange-400 px-3 py-1 rounded-full text-xs border border-orange-500/30">
+                🎯 95%+ AI Accuracy in Banking KYC
+              </span>
+            </div>
+
+            <div className="mt-6 p-4 bg-gray-800/50 rounded-lg border border-orange-500/20">
+              <p className="text-xs text-gray-400 mb-2">
+                Ask me anything about Aaron! I can provide detailed insights about his projects, experience, skills, and more.
+              </p>
+              <a
+                href="https://aarongeo.netlify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center space-x-1 text-xs text-orange-400 hover:text-orange-300 transition-colors"
+              >
+                <ExternalLink className="w-3 h-3" />
+                <span>Visit Portfolio: aarongeo.netlify.app</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Questions - Always Visible */}
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4 text-center">Quick questions to get started:</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {quickQuestions.map((question, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleQuickQuestion(question)}
+                  className="p-4 text-left bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-orange-500/50 rounded-lg transition-colors"
+                >
+                  <span className="text-gray-200">{question}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Messages Container */}
+      {/* Messages Container - Scrollable */}
       <div className="flex-1 overflow-hidden">
         <div className="h-full overflow-y-auto">
           <div className="max-w-4xl mx-auto">
-            {/* Welcome Section */}
-            {messages.length === 1 && (
-              <div className="px-4 py-8">
-                <div className="text-center mb-8">
-                  <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-white text-xl font-bold">AG</span>
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-100 mb-2">Aaron George Abraham</h2>
-                  <p className="text-gray-300 mb-1">Full-stack Developer & AI/ML Engineer</p>
-                  <p className="text-sm text-gray-400">CGPA: 8.23 | B.Tech CSE, Presidency University</p>
-                  
-                  <div className="flex flex-wrap justify-center gap-2 mt-4">
-                    <span className="bg-gray-800 text-orange-400 px-3 py-1 rounded-full text-xs border border-orange-500/30">
-                      🏆 Cybersecurity Track Winner - Haccverse'25
-                    </span>
-                    <span className="bg-gray-800 text-orange-400 px-3 py-1 rounded-full text-xs border border-orange-500/30">
-                      🥇 First Place - Technovanza 2024
-                    </span>
-                    <span className="bg-gray-800 text-orange-400 px-3 py-1 rounded-full text-xs border border-orange-500/30">
-                      🎯 95%+ AI Accuracy in Banking KYC
-                    </span>
-                  </div>
-
-                  <div className="mt-6 p-4 bg-gray-800/50 rounded-lg border border-orange-500/20">
-                    <div className="flex items-center justify-center space-x-2 mb-2">
-                      <Sparkles className="w-4 h-4 text-orange-400" />
-                      <span className="text-sm font-medium text-orange-400">Enhanced with Gemini AI</span>
-                    </div>
-                    <p className="text-xs text-gray-400 mb-2">
-                      Ask me anything about Aaron! I can provide detailed insights about his projects, experience, skills, and more.
-                    </p>
-                    <a
-                      href="https://aarongeo.netlify.app"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-1 text-xs text-orange-400 hover:text-orange-300 transition-colors"
-                    >
-                      <ExternalLink className="w-3 h-3" />
-                      <span>Visit Portfolio: aarongeo.netlify.app</span>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mb-8">
-                  <h3 className="text-lg font-semibold text-gray-100 mb-4">Quick questions to get started:</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {quickQuestions.map((question, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleQuickQuestion(question)}
-                        className="p-4 text-left bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-orange-500/50 rounded-lg transition-colors"
-                      >
-                        <span className="text-gray-200">{question}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
             {/* Messages */}
             <div className="space-y-0">
               {messages.map((message, index) => (
@@ -366,12 +335,6 @@ export default function ChatInterface() {
                           <span className="text-sm font-medium text-gray-100">
                             {message.isUser ? (user ? user.name : 'You') : 'Aaron\'s AI Assistant'}
                           </span>
-                          {!message.isUser && (
-                            <div className="flex items-center space-x-1">
-                              <Sparkles className="w-3 h-3 text-orange-400" />
-                              <span className="text-xs text-orange-400">Gemini</span>
-                            </div>
-                          )}
                           <span className="text-xs text-gray-500">
                             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
@@ -412,10 +375,7 @@ export default function ChatInterface() {
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
                           <span className="text-sm font-medium text-gray-100">Aaron's AI Assistant</span>
-                          <div className="flex items-center space-x-1">
-                            <Sparkles className="w-3 h-3 text-orange-400 animate-pulse" />
-                            <span className="text-xs text-orange-400">Thinking...</span>
-                          </div>
+                          <span className="text-xs text-orange-400">Thinking...</span>
                         </div>
                         <div className="flex space-x-1">
                           <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce"></div>
@@ -434,7 +394,7 @@ export default function ChatInterface() {
         </div>
       </div>
 
-      {/* Input Area */}
+      {/* Input Area - Fixed at Bottom */}
       <div className="flex-shrink-0 border-t border-gray-700 bg-gray-800">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <form onSubmit={handleSendMessage} className="relative">
@@ -463,7 +423,7 @@ export default function ChatInterface() {
           
           <div className="mt-2 text-center">
             <p className="text-xs text-gray-500">
-              Powered by Gemini AI • Aaron's AI can make mistakes. Please verify important information.
+              Aaron's AI can make mistakes. Please verify important information.
             </p>
           </div>
         </div>
