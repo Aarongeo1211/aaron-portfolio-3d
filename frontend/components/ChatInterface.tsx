@@ -4,13 +4,21 @@ import backend from '~backend/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, Bot, User, Github, Linkedin, Mail, Copy, RotateCcw } from 'lucide-react';
+import { Send, Bot, User, Github, Linkedin, Mail, Copy, RotateCcw, LogIn, UserPlus } from 'lucide-react';
+import LoginModal from './LoginModal';
 
 interface Message {
   id: string;
   content: string;
   isUser: boolean;
   timestamp: Date;
+}
+
+interface UserData {
+  id: number;
+  email: string;
+  name: string;
+  role: string;
 }
 
 export default function ChatInterface() {
@@ -23,9 +31,24 @@ export default function ChatInterface() {
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [user, setUser] = useState<UserData | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { toast } = useToast();
+
+  // Load user from localStorage on component mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
+    }
+  }, []);
 
   const chatMutation = useMutation({
     mutationFn: (message: string) => backend.portfolio.chat({ message }),
@@ -112,6 +135,37 @@ export default function ChatInterface() {
     ]);
   };
 
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    toast({
+      title: 'Logged out',
+      description: 'You have been successfully logged out.',
+    });
+  };
+
+  const handleLoginSuccess = (userData: UserData, token: string) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('token', token);
+    setIsLoginModalOpen(false);
+    
+    // Add personalized welcome message
+    const welcomeMessage: Message = {
+      id: Date.now().toString() + '_bot',
+      content: `Welcome back, ${userData.name}! I'm Aaron's AI assistant and I'm here to help you learn more about Aaron's work and projects. As a ${userData.role}, you have access to detailed information about his portfolio. What would you like to know?`,
+      isUser: false,
+      timestamp: new Date(),
+    };
+    setMessages(prev => [...prev, welcomeMessage]);
+    
+    toast({
+      title: 'Welcome!',
+      description: `Successfully logged in as ${userData.name}`,
+    });
+  };
+
   const quickQuestions = [
     "Tell me about Aaron's experience",
     "What are Aaron's technical skills?",
@@ -179,6 +233,27 @@ export default function ChatInterface() {
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
+              
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-gray-300">Welcome, {user.name}</span>
+                  <button
+                    onClick={handleLogout}
+                    className="p-2 text-gray-400 hover:text-orange-400 hover:bg-gray-700 rounded-lg transition-colors"
+                    title="Logout"
+                  >
+                    <LogIn className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="p-2 text-gray-400 hover:text-orange-400 hover:bg-gray-700 rounded-lg transition-colors"
+                  title="Login"
+                >
+                  <UserPlus className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -255,7 +330,7 @@ export default function ChatInterface() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-2 mb-2">
                           <span className="text-sm font-medium text-gray-100">
-                            {message.isUser ? 'You' : 'Aaron\'s AI Assistant'}
+                            {message.isUser ? (user ? user.name : 'You') : 'Aaron\'s AI Assistant'}
                           </span>
                           <span className="text-xs text-gray-500">
                             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -349,6 +424,13 @@ export default function ChatInterface() {
           </div>
         </div>
       </div>
+
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
     </div>
   );
 }
